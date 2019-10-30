@@ -1,0 +1,66 @@
+<Page ux:Class="HomePage">
+	<Router ux:Dependency="Router" />
+	<JavaScript>
+		var pages = [
+			{"name":"page", "highlight":"#34495e", "icon":"Assets/Images/pngs/icon-hexagon.png"},
+			{"name":"page", "highlight":"#3498db", "icon":"Assets/Images/pngs/icon-star.png"},
+			{"name":"page", "highlight":"#aa3377", "icon":"Assets/Images/pngs/icon-square.png"},
+			{"name":"page", "highlight":"#88cc22", "icon":"Assets/Images/pngs/icon-triangle.png"}
+		];
+
+		console.dir(this);
+		
+		module.exports = {
+			pages: pages,
+			pageCount: pages.length,
+		};
+	</JavaScript>
+	<Page ux:Class="MyPage">
+		<ResourceFloat4 Key="Highlight" Value="{highlight}" />
+		<FileImageSource ux:Key="Icon" File="{icon}" />
+		<ResourceString Key="Name" Value="{name}" />
+		<!-- <Image File="Assets/Images/pngs/fuse-logo.png" StretchDirection="DownOnly" /> -->
+		<Rectangle Color="{highlight}" />
+	</Page>
+
+
+	<DockPanel>
+		<BottomBarBackground Dock="Bottom" />
+
+		<!-- <BackButton Clicked="{log}" Dock="Top">
+		    <Clicked>
+		        <GoBack />
+		    </Clicked>
+		</BackButton> -->
+
+		<PageControl ux:Name="pages">
+			<Each Items="{pages}">
+				<MyPage/>
+			</Each>
+		</PageControl>
+
+		<PageIndicator Dock="Bottom" Height="60" Navigation="pages">
+			<GridLayout ColumnCount="{pageCount}" />
+			<Panel ux:Template="Dot" Height="60">
+				<ActivatingAnimation>
+					<Scale Target="icon" Factor="1.3" />
+					<Scale Target="name" Factor="1.3" />
+					<Change icon.Color="#0096FF" />
+					<Change name.Color="#0096FF" />
+				</ActivatingAnimation>
+				<Clicked>
+					<NavigateTo Target="{Page Visual}" />
+				</Clicked>
+				
+				<Rectangle Color="#D5D5D5">
+					<DockPanel>
+						<Image ux:Name="icon" Width="30" File="{Page Icon}" Color="#A9A9A9" />
+						<Text ux:Name="name" Dock="Bottom" Margin="0,0,0,5" FontSize="12" TextColor="White" Value="{Page Name}" Alignment="Center" Color="#A9A9A9" />
+					</DockPanel>
+				</Rectangle>
+			</Panel> 
+		</PageIndicator>
+
+		
+	</DockPanel>
+</Page>

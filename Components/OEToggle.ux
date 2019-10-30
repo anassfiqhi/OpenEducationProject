@@ -1,0 +1,23 @@
+<Rectangle ux:Class="OEToggle" ux:Name="Container" Color="#F1F1F1" CornerRadius="50" Padding="0, 0, 0, 0" Margin="0, 0, 0, 0" ClipToBounds="true" Width="100">
+		<Rectangle ux:Name="Circle" Width="40" CornerRadius="50" Alignment="CenterLeft" Height="40"  Padding="0, 0, 0, 0">
+			<LinearGradient Angle="45">
+				<GradientStop Offset="0" Color="#00D9FD" />
+				<GradientStop Offset="1" Color="#0354FB" />
+			</LinearGradient>
+			<SwipeGesture ux:Name="SwipeGestureRight" Direction="Right" />
+			<SwipeGesture ux:Name="SwipeGestureLeft" Direction="Left" />
+			<SwipingAnimation Source="SwipeGestureRight">
+				<Move X="1" RelativeTo="ParentSize" Duration="1" />
+			</SwipingAnimation>
+			<SwipingAnimation Source="SwipeGestureLeft">
+				<Move X="-1" RelativeTo="ParentSize" Duration="1" />
+			</SwipingAnimation>
+			
+			<Swiped Source="SwipeGestureRight">
+				<Set Circle.Alignment="CenterRight" />
+			</Swiped>
+			<Swiped Source="SwipeGestureLeft">
+				<Set Circle.Alignment="CenterLeft" />
+			</Swiped>
+		</Rectangle>
+	</Rectangle>

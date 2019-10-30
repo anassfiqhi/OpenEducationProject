@@ -1,0 +1,71 @@
+<App>
+	<Router ux:Name="router" />
+	<string ux:Global="variable" ux:Value="Hello" />
+	<JavaScript>
+		var Lifecycle = require('FuseJS/Lifecycle');
+		Lifecycle.on("enteringForeground", function() {
+	        
+	        console.log("╔══════════════════════════════╗\n");
+	        console.log("\n");
+	        console.log("\n");
+	        console.log("═══> on enteringForeground <═══");
+	    	console.log("\n");
+	    	console.log("\n");
+	    	console.log("╚══════════════════════════════╝\n");
+
+	    });
+	    Lifecycle.on("enteringInteractive", function() {
+	        
+	        console.log("╔══════════════════════════════╗\n");
+	        console.log("\n");
+	        console.log("\n");
+	        console.log("═══> on enteringInteractive <═══");
+	        console.log("\n");
+	        console.log("\n");
+	        console.log("╚══════════════════════════════╝\n");
+
+	        //BackgroundVideo.resume();
+	        //router.goto("HomePage");
+	    });
+	    Lifecycle.on("exitedInteractive", function() {
+	        
+			console.log("╔══════════════════════════════╗\n");
+	        console.log("\n");
+	        console.log("\n");
+	        console.log("═══> on exitedInteractive <═══");
+	    	console.log("\n");
+	    	console.log("\n");
+	    	console.log("╚══════════════════════════════╝\n");
+
+	    });
+	    Lifecycle.on("enteringBackground", function() {
+	        
+	        console.log("╔══════════════════════════════╗\n");
+	        console.log("\n");
+	        console.log("\n");
+	        console.log("═══> on enteringBackground <═══");
+	    	console.log("\n");
+	    	console.log("\n");
+	    	console.log("╚══════════════════════════════╝\n");
+
+	    });
+	    Lifecycle.on("stateChanged", function(newState) {
+	        
+	        console.log("╔══════════════════════════════╗\n");
+	        console.log("\n");
+	        console.log("\n");
+	        console.log("═══> on stateChanged " + newState + " <═══");
+	    	console.log("\n");
+	    	console.log("\n");
+	    	console.log("╚══════════════════════════════╝\n");
+
+	    });
+	    module.exports = {
+			lifecycleState: Lifecycle.observe("stateChanged"),
+		};
+	</JavaScript>
+	<Navigator DefaultPath="HomePage">
+			<LoginPage ux:Template="LoginPage" Router="router" />
+			<HomePage ux:Template="HomePage" Router="router"  />
+	</Navigator>
+</App>

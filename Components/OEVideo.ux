@@ -1,0 +1,24 @@
+<Panel ux:Class="OEVideo">
+	<object ux:Property="File" />
+	<object ux:Property="Url" />
+	<DockPanel>
+	    <Video ux:Name="video" Dock="Fill"  File="{Property File}" Url="{Property Url}" IsLooping="true" StretchMode="UniformToFill">
+	        <ProgressAnimation>
+	            <Change progressBar.Width="100" />
+	        </ProgressAnimation>
+	    </Video>
+	    <Rectangle ux:Name="progressBar" Dock="Bottom" Fill="#f00" Width="0%" Height="10" />
+	    <Grid Dock="Bottom" ColumnCount="2" RowCount="1">
+	        <Button Text="Play">
+	            <Clicked>
+	                <Resume Target="video" />
+	            </Clicked>
+	        </Button>
+	        <Button Text="Pause">
+	            <Clicked>
+	                <Pause Target="video" />
+	            </Clicked>
+	        </Button>
+	    </Grid>
+	</DockPanel>
+</Panel>

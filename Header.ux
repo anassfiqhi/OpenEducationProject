@@ -1,0 +1,18 @@
+<StackPanel ux:Class="Header" Height="170" Alignment="Center" Width="100%" LeftText="Made with" RightText="by Alex (Anass)">
+
+	<string ux:Property="LeftText" />
+	<string ux:Property="RightText" />
+
+	<Text Alignment="Center" TextAlignment="Center" TextColor="#200E08" TextWrapping="NoWrap" Margin="10" FontSize="35" Color="#FFF" Value="Open Education" />
+	
+	<StackPanel Orientation="Horizontal" Alignment="Center">
+		<Text Value="{Property LeftText}" Alignment="Center" TextAlignment="Center" TextColor="#200E08" TextWrapping="NoWrap" FontSize="15" Color="#FFF" Margin="0, 0, 5, 0" />
+		<Path Data="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z" Width="15" Fill="#E9564F" HitTestMode="Children">
+			<Clicked>
+				<Scale Factor=" 2" Duration="1" />
+			</Clicked>
+		</Path>
+		<Text Value="{Property RightText}" Alignment="Center" TextAlignment="Center" TextColor="#200E08" TextWrapping="NoWrap" FontSize="15" Color="#FFF" Margin="5, 0, 0, 0" />
+	</StackPanel>
+
+</StackPanel>

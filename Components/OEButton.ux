@@ -1,0 +1,15 @@
+<Rectangle ux:Class="OEButton" Text="Button" ScaleFactor=".97">
+	<float ux:Property="ScaleFactor" />
+    <string ux:Property="Text" />
+	<Text Alignment="Center" Value="{Property Text}" Color="White" />
+	<LinearGradient AngleDegrees="45" StartPoint="0,0" EndPoint="0,1">
+	    <GradientStop Offset="0" Color="#1FA2FF" />
+		<GradientStop Offset=".5" Color="#12D8FA" />
+		<GradientStop Offset="2" Color="#8DD3D0" />
+	</LinearGradient>
+	<WhilePressed>
+	    <!-- <Scale Factor="1.04" Duration=".1" /> -->
+	    <Scale Factor="{Property ScaleFactor}" Duration=".1" />
+	</WhilePressed>
+	<Shadow />
+</Rectangle>

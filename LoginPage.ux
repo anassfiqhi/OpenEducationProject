@@ -1,0 +1,359 @@
+<Page ux:Class="LoginPage">
+	<Router ux:Dependency="Router" />
+	<JavaScript>
+			var experiment = require("ForeignCodeExperimentModule");
+			var Observable = require("FuseJS/Observable");
+			var Lifecycle = require('FuseJS/Lifecycle');
+			var service = require('Service');
+			var Alerts = require("FuseJS/Alerts");
+			var AES = require("./JS/aes.js");
+
+			console.log(Loading.Opacity);
+
+	        function showAlert() {
+	            Alerts.alert("Alert", "description", "OK").then(function(x) {
+	                console.log("alert closed, got: " + x);
+	            });
+	        }
+
+	        function showConfirm() {
+	            Alerts.confirm("Confirm", "description", "YES", "NO").then(function(x) {
+	                console.log("confirm closed, got: " + x);
+	            });
+	        }
+
+			var loadingOpacityObservale = Observable(0);
+			var loadingZOffsetObservale = Observable(0);
+			var isLoading = Observable(false);
+			var usernameObservale = Observable("");
+			var passwordObservale = Observable("");
+			var rememberMeObservale = Observable(true);
+			var isPlaying = Observable(false);
+			var isBackgrounExcecuting = Observable(false);
+
+			/*var Maps = require("FuseJS/Maps");
+			Maps.openAt(59.9117715, 10.7400957);*/
+			var LogTextFunction = function () {
+				if(usernameObservale.value){	
+					//console.log(usernameObservale.value);
+					experiment.Notify(usernameObservale.value);
+				}
+			};
+
+			var loginFunction = function() {
+				// body...
+				if(usernameObservale.value && passwordObservale.value){
+					var status = 0;
+					var response_ok = false;
+
+					loadingOpacityObservale.value = 1;
+					loadingZOffsetObservale.value = 100;
+					isLoading.value = true;
+
+					var xhr = new XMLHttpRequest();
+		            xhr.open("POST", 'http://anaxtest.c1.biz/OEP/login.php', true);
+
+		            //Send the proper header information along with the request
+		            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+		            xhr.onreadystatechange = function () { 
+		            	// Call a function when the state change
+		            	/*if(this.readyState === XMLHttpRequest.DONE && this.status >= 200 && this.status < 304){*/
+
+		            		if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+			                	if(JSON.parse(this.responseText.toString()).ReqStatus == false){
+			                		Alerts.alert("Alert", "Something goes wrong !! Check the Username or the Password !!", "OK").then(function(x) {
+					                	console.log("alert closed, got: " + x);
+					            	});
+			                		return;
+			                	}
+		                    /*console.log(JSON.parse(this.responseText.toString()));
+		                    console.log(typeof this.responseText.toString());
+		                    console.log(this.responseText.toString());*/
+		                    //experiment.toastText(this.responseText.toString());
+		                    /*Alerts.alert("Alert", this.responseText.toString(), "OK").then(function(x) {
+				                console.log("alert closed, got: " + x);
+				            });*/
+				            var encoded = {"username" : btoa(usernameObservale.value),
+		                    		"password" : btoa(passwordObservale.value),
+		                    		"RememberMe" : rememberMeObservale.value
+		                    	};
+		                    if(rememberMeObservale.value){
+		                    	console.log("---------------------");
+		                    	localStorage.setItem("rememberMeObservale",encoded);
+		                    	experiment.toastText(JSON.stringify(encoded));
+		                    	console.log("---------------------");
+		                    }else{
+		                    	experiment.toastText(JSON.stringify(encoded));
+		                    }
+		                    loadingOpacityObservale.value = 0;
+							loadingZOffsetObservale.value = 0;
+							isLoading.value = false;
+		                    Router.goto("HomePage");
+		                }else if(this.readyState === XMLHttpRequest.DONE && this.status === 404){
+		                    
+		                	Alerts.alert("Alert", "Something goes wrong !! Error 404", "OK").then(function(x) {
+				                console.log("alert closed, got: " + x);
+				            });
+		                }
+
+				            loadingOpacityObservale.value = 0;
+							loadingZOffsetObservale.value = 0;
+							isLoading.value = false;
+						/*}else{
+							Alerts.alert("Alert", "Something goes wrong !! No Network Connection", "OK").then(function(x) {
+				                console.log("alert closed, got: " + x);
+				            });
+				            loadingOpacityObservale.value = 0;
+							loadingZOffsetObservale.value = 0;
+							isLoading.value = true;
+						}*/
+		            }
+		            xhr.send("username=" + usernameObservale.value + "&password=" + passwordObservale.value + "&save=" + rememberMeObservale.value);
+					}
+			}
+
+		    Lifecycle.on("enteringForeground", function() {
+		        
+		        console.log("╔══════════════════╗\n");
+		        console.log("\n");
+		        console.log("\n");
+		        console.log("═══> on enteringForeground <═══");
+		    	console.log("\n");
+		    	console.log("\n");
+		    	console.log("╚══════════════════╝\n");
+
+		    });
+		    Lifecycle.on("enteringInteractive", function() {
+		        
+		        console.log("╔══════════════════╗\n");
+		        console.log("\n");
+		        console.log("\n");
+		        console.log("═══> on enteringInteractive <═══");
+		        console.log("\n");
+		        console.log("\n");
+		        console.log("╚══════════════════╝\n");
+
+		        BackgroundVideo.resume();
+		    });
+		    Lifecycle.on("exitedInteractive", function() {
+		        
+				console.log("╔══════════════════╗\n");
+		        console.log("\n");
+		        console.log("\n");
+		        console.log("═══> on exitedInteractive <═══");
+		    	console.log("\n");
+		    	console.log("\n");
+		    	console.log("╚══════════════════╝\n");
+
+		    });
+		    Lifecycle.on("enteringBackground", function() {
+		        
+		        console.log("╔══════════════════╗\n");
+		        console.log("\n");
+		        console.log("\n");
+		        console.log("═══> on enteringBackground <═══");
+		    	console.log("\n");
+		    	console.log("\n");
+		    	console.log("╚══════════════════╝\n");
+
+		    });
+		    Lifecycle.on("stateChanged", function(newState) {
+		        
+		        console.log("╔══════════════════╗\n");
+		        console.log("\n");
+		        console.log("\n");
+		        console.log("═══> on stateChanged " + newState + " <═══");
+		    	console.log("\n");
+		    	console.log("\n");
+		    	console.log("╚══════════════════╝\n");
+
+		    });
+
+		    service.on("Service", function(state) {
+		    	
+		    	console.log("╔══════════════════╗\n");
+		    	console.log("\n");
+		        console.log("\n");
+		        console.log("═══> Service Status Changed " + state);
+		    	console.log("\n");
+		    	console.log("\n");
+		    	console.log("╚══════════════════╝\n");
+
+			});
+
+			module.exports = {
+				LogText: LogTextFunction ,
+				usernameObservale: usernameObservale ,
+				lifecycleState: Lifecycle.observe("stateChanged"),
+				loginFunction:loginFunction,
+				passwordObservale:passwordObservale,
+				rememberMeObservale:rememberMeObservale,
+				loadingOpacityObservale:loadingOpacityObservale,
+				loadingZOffsetObservale:loadingZOffsetObservale,
+				isLoading:isLoading,
+				GetWindow:function() {
+					if(!isBackgrounExcecuting.value){
+						service.StartService();
+						isBackgrounExcecuting.value = true;
+					}else{
+						service.StopService();
+						isBackgrounExcecuting.value = false;
+					}
+				}
+			};
+	</JavaScript>
+	<DockPanel Background="#a9c0dd">
+		<!-- <Video ux:Name="BackgroundVideo" AutoPlay="true" File="Assets/Videos/Background3.mp4" IsLooping="true" StretchMode="UniformToFill" StretchDirection="UpOnly" Opacity="0.5" Color="#FFF" Layer="Background" Alignment="Default" Volume="0">
+			<Blur Radius="0" />
+		</Video> -->
+		<ScrollView>
+			<StackPanel>
+
+				<Header />
+				
+				<Rectangle Color="#FDF9F8" Margin="5,0,5,0" CornerRadius="20,20,0,0">
+					<Circle Margin="10" Width="150" Height="150" Alignment="Center" Clicked="{GetWindow}">
+						<Image File="res/mipmap-xxxhdpi/ic_launcher.png" Padding="0" Margin="15">
+							
+						</Image>
+						<!-- <LinearGradient Angle="45">
+							<GradientStop Offset="0" Color="#00D9FD" />
+							<GradientStop Offset="1" Color="#0354FB" />
+						</LinearGradient> -->
+						<LinearGradient Angle="45">
+							<GradientStop Offset="0" Color="#1FA2FF" />
+							<GradientStop Offset="1" Color="#12D8FA" />
+							<GradientStop Offset="2" Color="#8DD3D0" />
+						</LinearGradient>
+						<Shadow />
+						<WhilePressed>
+							<!-- <Rotate Degrees="360" Duration="0.5" DurationBack=".5" /> -->
+							<!-- <Scale Factor="1.1" Duration=".1" /> -->
+							<Scale Factor=".9" Duration=".1" />
+						</WhilePressed>
+					</Circle>
+				</Rectangle>
+
+				<Rectangle CornerRadius="20" Alignment="Default" ClipToBounds="true">
+
+					
+
+					<Selection Value="LoginSelection" />
+
+					<Rectangle ux:Name="Registeration" CornerRadius="0,0,20,20" Margin="5,0,5,0" Opacity="1" ClipToBounds="true" Padding="0" Color="#FDF9F8" Alignment="Bottom" Width="100%" Height="100%" ZOffset="1">
+						
+						<DockPanel>
+							<StackPanel>
+								
+
+								<OETextInput ux:Name="UsernameRegister" PlaceholderText="Username" Opacity="1" />
+								<OEPasswordInput ux:Name="PasswordRegister" PlaceholderText="Password" Opacity="1" />
+								<OETextInput ux:Name="EmailRegister" PlaceholderText="Email" Opacity="1" />
+								<OEButton CornerRadius="50" Height="50" Width="100%" Margin="10" Text="Register" />
+
+							</StackPanel>
+						
+							<StackPanel Dock="Bottom" Orientation="Horizontal" Alignment="Center" Margin="10">
+								<Text Value="Already registered? " Alignment="Center" Height="150%" />
+								<Text Value=" Sign in" Alignment="Center" Margin="0" Color="#12D8FA" HitTestMode="LocalBoundsAndChildren" Height="150%">
+									<WhilePressed>
+										<!-- <Scale Factor="1.2" Duration=".3" /> -->
+										<Scale Factor=".9" Duration=".1" />
+									</WhilePressed>
+									<Clicked>
+										<ToggleSelection TargetNode="Login" />
+									</Clicked>
+								</Text>
+							</StackPanel>
+						</DockPanel>
+					</Rectangle>
+
+
+
+					<Rectangle ux:Name="Login" CornerRadius="20" Margin="5,0,5,0" Opacity="0" ClipToBounds="true" Padding="0" Color="#FDF9F8" Alignment="Bottom" Width="100%" Height="0%" ZOffset="1">
+						<Selectable Value="LoginSelection" />
+						
+
+						<DockPanel>
+							<StackPanel>
+
+								<OETextInput ux:Name="Username" Value="{usernameObservale}" PlaceholderText="Username" Opacity="1" />
+								<OEPasswordInput ux:Name="Password" Value="{passwordObservale}" PlaceholderText="Password" Opacity="1" />
+								<OECheckBox ux:Name="RememberMe" Height="50" Value="{rememberMeObservale}" />
+								<OEButton Clicked="{loginFunction}" CornerRadius="50" Height="50" Width="100%" Margin="10" Text="Login" />
+							</StackPanel>
+							<StackPanel Dock="Bottom" Orientation="Horizontal" Alignment="Center" Margin="10">
+								<Text Value="Not registered?" Alignment="Center" Height="150%" />
+								<Text Value=" Create an account" Alignment="Center" Margin="0" Color="#12D8FA" HitTestMode="LocalVisualAndChildren" Height="150%">
+									<WhilePressed>
+										<!-- <Scale Factor="1.2" Duration=".3" /> -->
+										<Scale Factor=".9" Duration=".1" />
+									</WhilePressed>
+									<Clicked>
+										<ToggleSelection />
+									</Clicked>
+								</Text>
+							</StackPanel>
+						</DockPanel>
+						<WhileSelected>
+							<Change Login.ZOffset="10" Duration=".5" />
+							<!-- <Change Login.Opacity="1" /> -->
+							<Change Login.Opacity="1" Duration=".5" />
+							<Change Login.Height="100%" Duration=".5" />
+						</WhileSelected>
+					</Rectangle>
+					
+
+
+				</Rectangle>
+				
+				<!--<Text Value="{lifecycleState}" />-->
+				
+			</StackPanel>
+		</ScrollView>
+
+
+		<!--<VideoItem Url="https://pixabay.com/videos/download/video-7268_medium.mp4?attachment" />-->
+		<!--<Image File="images/svgs/hat.svg" />-->
+
+		<BottomFrameBackground Dock="Bottom" />
+		<Text Dock="Bottom" Alignment="Center" Margin="5" Color="White" Value="Background video by videvo.net" />
+	</DockPanel>
+	<Rectangle ux:Name="Loading"
+	 ZOffset="{loadingZOffsetObservale}" Opacity="{loadingOpacityObservale}" Color="#80808082">
+		<Rectangle Color="White" Width="150" Height="150" Alignment="Center" CornerRadius="20" >
+			<StackPanel Orientation="Horizontal" Alignment="Center">
+				<Rectangle Margin="5">
+					
+				<Circle ux:Name="rotatingStroke" Width="30" Height="30" StartAngleDegrees="-45" EndAngleDegrees="45">
+					<Stroke Width="2">
+						<LinearGradient Angle="45">
+							<GradientStop Offset="0" Color="#1FA2FF" />
+							<GradientStop Offset="1" Color="#12D8FA" />
+							<GradientStop Offset="2" Color="#8DD3D0" />
+						</LinearGradient>
+					</Stroke>
+				</Circle>
+				<Circle  Width="15" Height="15">
+					<LinearGradient Angle="45">
+							<GradientStop Offset="0" Color="#1FA2FF" />
+							<GradientStop Offset="1" Color="#12D8FA" />
+							<GradientStop Offset="2" Color="#8DD3D0" />
+						</LinearGradient>
+					<Timeline ux:Name="myTimeline">
+						<Scale Factor=".5" Duration=".25" Easing="CircularOut" EasingBack="CircularIn" />
+						<Scale Factor="2" Duration=".25" Delay=".25" Easing="BounceOut" EasingBack="BounceIn" />
+					</Timeline>
+				</Circle>
+				<WhileTrue Value="{isLoading}">
+					<Cycle Target="myTimeline.TargetProgress" Low="0" High="1" Frequency=".5" />
+					<Spin Target="rotatingStroke" Frequency="1" />
+				</WhileTrue>
+				</Rectangle>
+			<Text Alignment="Center" Value="Loading  ..." />
+			</StackPanel>
+			
+		</Rectangle>
+	</Rectangle>
+</Page>

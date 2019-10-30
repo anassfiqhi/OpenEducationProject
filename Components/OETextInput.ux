@@ -1,0 +1,5 @@
+<Rectangle ux:Class="OETextInput" Color="#f1f1f1" Margin="5, 5, 5, 5" CornerRadius="50" Padding="5">
+	<string ux:Property="Value" />
+    <string ux:Property="PlaceholderText" />
+    <TextInput Value="{Property Value}" IsPassword="false" TextColor="#2e96e2" CaretColor="#2e96e2" Padding="5" Margin="5" PlaceholderText="{Property PlaceholderText}" PlaceholderColor="#787878" />
+</Rectangle>

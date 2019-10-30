@@ -1,0 +1,38 @@
+{
+  "RootNamespace":"",
+  "Packages": [
+    "Fuse",
+    "FuseJS",
+    "Uno.Permissions",
+    "Android.ActivityUtils",
+    "Fuse.Launcher",
+    "Fuse.Alerts",
+    "Fuse.UXKits.Alive"
+  ],
+  "Includes": [
+    "*.ux",
+    "*.uno",
+    "Assets/videos/*:Bundle",
+    "Assets/Images/*:Bundle",
+    "**.js:FuseJS",
+    "Service.uno:Source",
+    "ServiceClass.java:Java:android",
+    "window.uxl:Extensions",
+    "JS/*:Bundle",
+  ],
+  "Android": {
+    "Icons": {
+      "MDPI": "res/mipmap-mdpi/ic_launcher.png",
+      "HDPI": "res/mipmap-hdpi/ic_launcher.png",
+      "XHDPI": "res/mipmap-xhdpi/ic_launcher.png",
+      "XXHDPI": "res/mipmap-xxhdpi/ic_launcher.png",
+      "XXXHDPI": "res/mipmap-xxxhdpi/ic_launcher.png"
+    }
+   },
+   "Mobile": {
+    "UriScheme": "openeducation"
+  },
+  "Title": "Open Education",
+  "Version": "0.0.1"
+
+}
