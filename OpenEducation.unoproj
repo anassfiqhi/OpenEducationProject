@@ -13,7 +13,7 @@
     "*.ux",
     "*.uno",
     "Assets/videos/*:Bundle",
-    "Assets/Images/*:Bundle",
+    "Assets/Images/*/*.png:Bundle",
     "**.js:FuseJS",
     "Service.uno:Source",
     "ServiceClass.java:Java:android",
