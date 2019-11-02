@@ -54,7 +54,7 @@
 				
 				<Rectangle Color="#D5D5D5">
 					<DockPanel>
-						<Image ux:Name="icon" Width="30" File="{Page Icon}" Color="#A9A9A9" />
+						<Image ux:Name="icon" Width="30" Source="{Page Icon}" Color="#A9A9A9" />
 						<Text ux:Name="name" Dock="Bottom" Margin="0,0,0,5" FontSize="12" TextColor="White" Value="{Page Name}" Alignment="Center" Color="#A9A9A9" />
 					</DockPanel>
 				</Rectangle>
